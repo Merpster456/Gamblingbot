@@ -13,7 +13,7 @@ class Gambling_bot:
     def close_browser(self):
         self.driver.close()
 
-    def login(self):
+    def initiate(self):
         driver = self.driver
         driver.get("https://discord.com/login/")
         sleep(5)
@@ -24,15 +24,11 @@ class Gambling_bot:
         password_field.clear()
         password_field.send_keys(self.password)
         password_field.send_keys(Keys.RETURN)
-        
-    def change_channels(self):
-        driver = self.driver
+        sleep(10)
         driver.get("https://discord.com/channels/731310911792480256/808115279221358602/")
-
+        
 email = input("Email: ")
 pwd = getpass.getpass()
 
 bot = Gambling_bot(email, pwd)
-bot.login()
-sleep(10)
-bot.change_channels()
+bot.initiate()
