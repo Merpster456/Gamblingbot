@@ -24,11 +24,24 @@ class Gambling_bot:
         password_field.clear()
         password_field.send_keys(self.password)
         password_field.send_keys(Keys.RETURN)
-        sleep(10)
+        sleep(5)
+
+    def work(self):
+        driver = self.driver
         driver.get("https://discord.com/channels/731310911792480256/808115279221358602/")
-        
+        sleep(5)
+        message_box = driver.find_element_by_xpath("//div[@aria-label='Message #casino']")
+        message_box.send_keys(".work")
+        message_box.send_keys(Keys.RETURN)
+        sleep(1)
+        message_box.send_keys(".dep all")
+        message_box.send_keys(Keys.RETURN)
+
 email = input("Email: ")
 pwd = getpass.getpass()
 
 bot = Gambling_bot(email, pwd)
 bot.initiate()
+while True:
+    sleep(605)
+    bot.work()
