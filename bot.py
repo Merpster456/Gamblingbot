@@ -27,6 +27,7 @@ class Gambling_bot:
         
     def change_channels(self):
         driver = self.driver
+        driver.get("https://discord.com/channels/731310911792480256/808115279221358602/")
 
 email = input("Email: ")
 pwd = getpass.getpass()
