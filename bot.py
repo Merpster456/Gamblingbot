@@ -1,5 +1,6 @@
 import re
 import getpass
+from time import time
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -35,7 +36,7 @@ class Gambling_bot:
         message_box.send_keys(".work")
         message_box.send_keys(Keys.RETURN)
         sleep(1)
-        deposit()
+        self.deposit()
        
     def hourly(self):
         driver = self.driver
@@ -51,7 +52,7 @@ class Gambling_bot:
         message_box.send_keys("green")
         message_box.send_keys(Keys.RETURN)
         sleep(1)
-        deposit()
+        self.deposit()
 
     def daily(self):
         driver = self.driver
@@ -67,7 +68,7 @@ class Gambling_bot:
         message_box.send_keys("bust")
         message_box.send_keys(Keys.RETURN)
         sleep(1)
-        deposit() 
+        self.deposit() 
 
     def get_bal(self):
         driver = self.driver
@@ -108,11 +109,7 @@ class Gambling_bot:
         driver.get("https://discord.com/channels/@me/809096023037050930")
         sleep(5)
         """
-        bal = self.get_bal()
-        bet = int(bal/256)
-        self.withdraw(bet)
-        passed = True
-        """
+                """
         self.withdraw(amount)
         sleep(1)
         message_box = driver.find_element_by_xpath("//div[@aria-label='Message @Gamble Bot']")
@@ -121,16 +118,32 @@ class Gambling_bot:
         sleep(1)
         results = driver.find_elements_by_xpath(
                 "//div[@class='embedWrapper-lXpS3L embedFull-2tM8-- embed-IeVjo6 markup-2BOw-j']")
-        print(results)
-        print(results[-1].text)
         
-        """
-        r = []
-        for elem in results:
-            r.append(elem)
-        """ 
+        dirty_sty = results[-1].get_attribute("style")
+        temp = re.findall(r"\d+", dirty_sty) 
+        sty = int("".join(temp))
+        if sty == 25534:
+            self.deposit()
+            return True
+        else:
+            return False
 
-            
+    def flip_loop(self):
+        t0 = time()
+        driver = self.driver
+        driver.get("https://discord.com/channels/@me/809096023037050930")
+        sleep(5)
+        bal = self.get_bal()
+        bet = int(bal/256)
+        self.withdraw(bet)
+        trigger = True
+        while True:
+            if self.flip(bet):
+                print(time() - t0,"s")
+                break
+            else:
+                bet = bet*2
+                print(bet)
 
 #email = input("Email: ")
 #pwd = getpass.getpass()
@@ -139,9 +152,8 @@ pwd = "Poppk456"
 
 bot = Gambling_bot(email, pwd)
 bot.initiate()
-bot.flip(1)
+#bot.flip_loop()
 i = 0
-"""
 while True:
     sleep(600)
     bot.work()
@@ -151,4 +163,3 @@ while True:
     if (i%144 == 0):
         bot.daily()
         i = 0
-"""
