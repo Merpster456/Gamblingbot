@@ -160,10 +160,8 @@ class Gambling_bot:
             self.deposit()
             self.close_browser()
 
-#email = input("Email: ")
-#pwd = getpass.getpass()
-email = "rfq456@gmail.com"
-pwd = "Poppk456"
+email = input("Email: ")
+pwd = getpass.getpass()
 
 bot = Gambling_bot(email, pwd)
 bot.initiate()
